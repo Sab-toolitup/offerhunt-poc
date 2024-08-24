@@ -1,0 +1,40 @@
+
+<div class="wishlist-inspire__icon" x-data="bogo">
+  <h1>{{title}}</h1>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('bogo', () => ({
+          appUrl: "https://meter-trauma-steal-denmark.trycloudflare.com/",
+            init(){
+              fetch(this.appUrl + "api/bogos"+"?productId={{ product.id }}&shop={{ shop.permanent_domain }}")
+                  .then(response => response.json())
+                  .then(result => {
+                    console.log(result.data)
+                    this.title = result.data.title;
+                  })
+                  .catch(error => {
+                    console.log(this.appUrl + "api/bogos"+"?productId={{ product.id }}&shop={{ shop.permanent_domain }}")
+                    console.log('error', error)
+                  });
+            },
+            addToWishlist() {}
+
+        }))
+    })
+</script>
+
+{% schema %}
+{
+  "name": "Star Rating",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true },
+    { "type": "color", "id": "colour", "label": "Star Colour", "default": "#ff0000" }
+  ]
+}
+{% endschema %}
+
